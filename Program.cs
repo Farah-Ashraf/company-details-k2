@@ -17,10 +17,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.MapGet("/", () => "Company Lookup API is running.");
 
 app.UseHttpsRedirection();
 app.MapControllers();
