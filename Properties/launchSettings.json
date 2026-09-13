@@ -7,7 +7,9 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5080;https://localhost:7080",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "NEXT_PUBLIC_SUPABASE_URL": "https://taxymgqassnyvaopkqmi.supabase.co",
+        "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_Jxw2oiQiTJYpqs2soCGlvA_UI-YNcAl"
       }
     }
   }
