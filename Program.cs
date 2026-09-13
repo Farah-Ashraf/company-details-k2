@@ -17,8 +17,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseSwagger();
+app.UseSwagger(options =>
+{
+    options.SerializeAsV2 = true;
+});
 app.UseSwaggerUI();
+
 
 app.MapGet("/", () => "Company Lookup API is running.");
 
