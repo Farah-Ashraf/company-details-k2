@@ -1,5 +1,6 @@
 using CompanyLookupApi.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,21 +14,20 @@ builder.Services.AddDbContext<CompanyDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
-    {
-        // This explicitly injects the host and scheme K2 needs
-        swaggerDoc.Host = httpRequest.Host.Value; 
-        swaggerDoc.Schemes = new List<string> { httpRequest.Scheme };
-    });
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 app.UseSwagger(options =>
 {
     options.SerializeAsV2 = true;
+    options.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
+    {
+        swaggerDoc.Servers = new List<OpenApiServer>
+        {
+            new() { Url = $"{httpRequest.Scheme}://{httpRequest.Host.Value}" }
+        };
+    });
 });
 app.UseSwaggerUI();
 
