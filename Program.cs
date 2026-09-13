@@ -13,7 +13,15 @@ builder.Services.AddDbContext<CompanyDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
+    {
+        // This explicitly injects the host and scheme K2 needs
+        swaggerDoc.Host = httpRequest.Host.Value; 
+        swaggerDoc.Schemes = new List<string> { httpRequest.Scheme };
+    });
+});
 
 var app = builder.Build();
 
