@@ -2,6 +2,7 @@ using CompanyLookupApi.Data;
 using CompanyLookupApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CompanyLookupApi.Controllers;
 
@@ -10,6 +11,7 @@ namespace CompanyLookupApi.Controllers;
 public sealed class CompaniesController(CompanyDbContext dbContext) : ControllerBase
 {
     [HttpGet("{cif}")]
+    [SwaggerOperation(OperationId = "GetCompanyByCif", Tags = new[] { "CompanyResponse" })]
     [ProducesResponseType(typeof(CompanyResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<CompanyResponse>> GetByCif(string cif, CancellationToken cancellationToken)

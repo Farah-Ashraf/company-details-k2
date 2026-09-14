@@ -2,6 +2,7 @@ using CompanyLookupApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Npgsql;
+using System.Text.Json.Nodes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ builder.Services.AddDbContext<CompanyDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
 
 var app = builder.Build();
 
@@ -33,6 +34,8 @@ app.UseSwaggerUI();
 
 
 app.MapGet("/", () => "Company Lookup API is running.");
+app.MapGet("/api-docs/k2/swagger.json", (HttpRequest request) =>
+    Results.Json(CreateK2SwaggerDocument(request)));
 
 app.UseHttpsRedirection();
 app.MapControllers();
@@ -66,4 +69,85 @@ static string ToNpgsqlConnectionString(string value)
     }
 
     return connectionString.ConnectionString;
+}
+
+static JsonObject CreateK2SwaggerDocument(HttpRequest request)
+{
+    return new JsonObject
+    {
+        ["swagger"] = "2.0",
+        ["info"] = new JsonObject
+        {
+            ["title"] = "CompanyLookupApi",
+            ["version"] = "1.0"
+        },
+        ["host"] = request.Host.Value,
+        ["schemes"] = new JsonArray(request.Scheme),
+        ["paths"] = new JsonObject
+        {
+            ["/api/companies/{cif}"] = new JsonObject
+            {
+                ["get"] = new JsonObject
+                {
+                    ["tags"] = new JsonArray("CompanyResponse"),
+                    ["operationId"] = "GetCompanyByCif",
+                    ["produces"] = new JsonArray("application/json"),
+                    ["parameters"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["name"] = "cif",
+                            ["in"] = "path",
+                            ["required"] = true,
+                            ["type"] = "string"
+                        }
+                    },
+                    ["responses"] = new JsonObject
+                    {
+                        ["200"] = new JsonObject
+                        {
+                            ["description"] = "OK",
+                            ["schema"] = new JsonObject
+                            {
+                                ["$ref"] = "#/definitions/CompanyResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        ["definitions"] = new JsonObject
+        {
+            ["CompanyResponse"] = new JsonObject
+            {
+                ["type"] = "object",
+                ["properties"] = new JsonObject
+                {
+                    ["cif"] = StringProperty(),
+                    ["companyName"] = StringProperty(),
+                    ["tradingName"] = StringProperty(),
+                    ["segment"] = StringProperty(),
+                    ["legalEntityName"] = StringProperty(),
+                    ["country"] = StringProperty(),
+                    ["registrationNumber"] = StringProperty(),
+                    ["legalForm"] = StringProperty(),
+                    ["dateOfIncorporation"] = new JsonObject
+                    {
+                        ["type"] = "string",
+                        ["format"] = "date-time"
+                    },
+                    ["taxIdVat"] = StringProperty(),
+                    ["address"] = StringProperty(),
+                    ["numberOfEmployees"] = new JsonObject
+                    {
+                        ["type"] = "integer",
+                        ["format"] = "int32"
+                    },
+                    ["industry"] = StringProperty()
+                }
+            }
+        }
+    };
+
+    static JsonObject StringProperty() => new() { ["type"] = "string" };
 }
