@@ -33,6 +33,6 @@ public sealed class CompaniesController(CompanyDbContext dbContext) : Controller
                 item.Industry))
             .SingleOrDefaultAsync(cancellationToken);
 
-        return company is null ? NotFound() : Ok(company);
+        return company is null ? NotFound() : company;
     }
 }
