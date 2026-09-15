@@ -13,4 +13,16 @@ public sealed record CompanyResponse(
     string? TaxIdVat,
     string? Address,
     int? NumberOfEmployees,
-    string? Industry);
+    string? Industry,
+    string? OwnerName,
+    decimal? OwnershipPercentage,
+    string? NationalId,
+    string? BoardOfDirectors,
+    string? SignatoryAuthority,
+    decimal? AnnualTurnover,
+    decimal? WorkingCapital,
+    decimal? YtdTurnover,
+    decimal? NetProfit,
+    decimal? TotalAssets,
+    decimal? TotalLiabilities,
+    decimal? ShareholdersEquity);

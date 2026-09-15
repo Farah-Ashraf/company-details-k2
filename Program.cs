@@ -144,10 +144,27 @@ static JsonObject CreateK2SwaggerDocument(HttpRequest request)
                         ["format"] = "int32"
                     },
                     ["industry"] = StringProperty()
+                    , ["ownerName"] = StringProperty()
+                    , ["ownershipPercentage"] = NumberProperty()
+                    , ["nationalId"] = StringProperty()
+                    , ["boardOfDirectors"] = StringProperty()
+                    , ["signatoryAuthority"] = StringProperty()
+                    , ["annualTurnover"] = NumberProperty()
+                    , ["workingCapital"] = NumberProperty()
+                    , ["ytdTurnover"] = NumberProperty()
+                    , ["netProfit"] = NumberProperty()
+                    , ["totalAssets"] = NumberProperty()
+                    , ["totalLiabilities"] = NumberProperty()
+                    , ["shareholdersEquity"] = NumberProperty()
                 }
             }
         }
     };
 
     static JsonObject StringProperty() => new() { ["type"] = "string" };
+    static JsonObject NumberProperty() => new()
+    {
+        ["type"] = "number",
+        ["format"] = "double"
+    };
 }

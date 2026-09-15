@@ -32,7 +32,19 @@ public sealed class CompaniesController(CompanyDbContext dbContext) : Controller
                 item.TaxIdVat,
                 item.Address,
                 item.NumberOfEmployees,
-                item.Industry))
+                item.Industry,
+                item.OwnerName,
+                item.OwnershipPercentage,
+                item.NationalId,
+                item.BoardOfDirectors,
+                item.SignatoryAuthority,
+                item.AnnualTurnover,
+                item.WorkingCapital,
+                item.YtdTurnover,
+                item.NetProfit,
+                item.TotalAssets,
+                item.TotalLiabilities,
+                item.ShareholdersEquity))
             .SingleOrDefaultAsync(cancellationToken);
 
         return company is null ? NotFound() : company;

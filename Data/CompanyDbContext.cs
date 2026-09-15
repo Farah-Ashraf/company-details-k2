@@ -25,6 +25,18 @@ public sealed class CompanyDbContext(DbContextOptions<CompanyDbContext> options)
             entity.Property(company => company.TaxIdVat).HasMaxLength(100);
             entity.Property(company => company.Address).HasMaxLength(500);
             entity.Property(company => company.Industry).HasMaxLength(150);
+            entity.Property(company => company.OwnerName).HasMaxLength(255);
+            entity.Property(company => company.OwnershipPercentage).HasColumnType("numeric(5,2)");
+            entity.Property(company => company.NationalId).HasMaxLength(50);
+            entity.Property(company => company.BoardOfDirectors).HasMaxLength(1000);
+            entity.Property(company => company.SignatoryAuthority).HasMaxLength(500);
+            entity.Property(company => company.AnnualTurnover).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.WorkingCapital).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.YtdTurnover).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.NetProfit).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.TotalAssets).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.TotalLiabilities).HasColumnType("numeric(18,2)");
+            entity.Property(company => company.ShareholdersEquity).HasColumnType("numeric(18,2)");
         });
     }
 }
